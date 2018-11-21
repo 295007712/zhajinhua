@@ -1,13 +1,5 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
-
+var EventListener = require("./event-listener");
+var global = require("./global");
 cc.Class({
     extends: cc.Component,
 
@@ -17,8 +9,12 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        window.socket = io("localhost:3000");
-
+        global.socket = io("localhost:3000");
+        global.eventlistener = EventListener({});
+        global.eventlistener.on("login", function(uid){
+            console.log('button onclick  uid: ' + uid );
+            global.socket.emit("login", uid);
+        });
     },
 
     start () {
